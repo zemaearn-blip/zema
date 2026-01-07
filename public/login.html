@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - ZEMA</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 50px 40px;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 450px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .logo-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo {
+            font-size: 3.5em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .tagline {
+            color: #666;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+        .welcome-text {
+            color: #888;
+            font-size: 0.95em;
+        }
+        .stats-banner {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+        .stats-banner span {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        .form-group {
+            margin-bottom: 25px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+        input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e8ecef;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+        input:focus {
+            border-color: #667eea;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            background: white;
+        }
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+        }
+        .btn:active {
+            transform: translateY(0);
+        }
+        .btn-loading {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+        .btn-loading::after {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin: -10px 0 0 -10px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-right-color: transparent;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .register-link {
+            text-align: center;
+            margin-top: 25px;
+            color: #666;
+        }
+        .register-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        .register-link a:hover {
+            color: #5a67d8;
+            text-decoration: underline;
+        }
+        .message {
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 10px;
+            text-align: center;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .security-note {
+            text-align: center;
+            margin-top: 20px;
+            color: #888;
+            font-size: 0.8em;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-section">
+            <div class="logo">ZEMA</div>
+            <div class="tagline">Your Gateway to Financial Freedom</div>
+            <div class="welcome-text">Welcome back! Continue your earning journey</div>
+        </div>
+
+        <div class="stats-banner">
+            Join <span>1,250+</span> Users Earning Real Money Daily!
+        </div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required placeholder="Enter your registered email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required placeholder="Enter your password">
+            </div>
+            <button type="submit" class="btn" id="loginBtn">
+                <span id="btnText">Login to Your Account</span>
+            </button>
+        </form>
+
+        <div id="message" class="message"></div>
+
+        <div class="register-link">
+            Don't have an account? <a href="/register">Join ZEMA and Start Earning!</a>
+        </div>
+
+        <div class="security-note">
+            Your data is securely encrypted and protected
+        </div>
+
+        <div class="footer">
+            ZEMA Platform - Since 10/2025
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const messageDiv = document.getElementById('message');
+            const loginBtn = document.getElementById('loginBtn');
+            const btnText = document.getElementById('btnText');
+
+            loginBtn.classList.add('btn-loading');
+            btnText.textContent = 'Logging in...';
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    messageDiv.textContent = 'Login successful! Redirecting...';
+                    messageDiv.className = 'message success';
+                    messageDiv.style.display = 'block';
+
+                    localStorage.setItem('token', data.data.token);
+                    localStorage.setItem('currentUser', JSON.stringify(data.data.user));
+
+                    setTimeout(() => {
+                        window.location.href = '/dashboard';
+                    }, 1500);
+                } else {
+                    messageDiv.textContent = data.message;
+                    messageDiv.className = 'message error';
+                    messageDiv.style.display = 'block';
+
+                    loginBtn.classList.remove('btn-loading');
+                    btnText.textContent = 'Login to Your Account';
+                }
+            } catch (error) {
+                messageDiv.textContent = 'Connection error. Please try again.';
+                messageDiv.className = 'message error';
+                messageDiv.style.display = 'block';
+
+                loginBtn.classList.remove('btn-loading');
+                btnText.textContent = 'Login to Your Account';
+            }
+        });
+
+        // Auto-focus on email field
+        document.getElementById('email').focus();
+
+        // Check if user is already logged in
+        window.addEventListener('load', function() {
+            const token = localStorage.getItem('token');
+            const currentUser = localStorage.getItem('currentUser');
+
+            if (token && currentUser) {
+                window.location.href = '/dashboard';
+            }
+        });
+    </script>
+</body>
+</html>
