@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Start Earnings</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 50px 40px;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .logo-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo {
+            font-size: 3.5em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+        .tagline {
+            color: #888;
+            font-size: 1.1em;
+        }
+        .stats-banner {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+        .stats-banner span {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        .form-group {
+            margin-bottom: 25px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+        input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e8ecef;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+        input:focus {
+            border-color: #667eea;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            background: white;
+        }
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+        }
+        .message {
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 10px;
+            text-align: center;
+            display: none;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .login-link {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+        }
+        .login-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+        .payment-box {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            border-left: 4px solid #2196f3;
+            display: none;
+        }
+        .wallet-address {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px dashed #90caf9;
+        }
+        .copy-btn {
+            background: #5a6268;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s ease;
+        }
+        .copy-btn:hover {
+            background: #495057;
+        }
+        .steps {
+            margin: 20px 0;
+        }
+        .step {
+            margin: 12px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        .step:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #28a745;
+            font-weight: bold;
+        }
+        .referral-badge {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+        }
+        .benefits {
+            background: linear-gradient(135deg, #e8f5e8, #c8e6c9);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #4caf50;
+        }
+        .benefit-item {
+            margin: 10px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        .benefit-item:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #28a745;
+            font-weight: bold;
+        }
+        .contest-section {
+            background: linear-gradient(135deg, #ffd700, #ff6b6b);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+            border-left: 4px solid #ff5722;
+        }
+        .contest-section h3 {
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+        .contest-section p {
+            margin: 0;
+            font-size: 0.95em;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+            font-size: 0.9em;
+        }
+        .bot-instruction {
+            background: linear-gradient(135deg, #fff3cd, #ffecb5);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #ffc107;
+            color: #856404;
+        }
+        .bot-link {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+        .bot-link:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-section">
+            <div class="logo">ZEMA</div>
+            <div class="tagline">Start your earning journey today</div>
+        </div>
+
+        <div class="stats-banner">
+            Join <span>1,250+</span> Users Earning Real Money
+        </div>
+
+        <div class="contest-section">
+            <h3>Weekly Contests & Monthly Gaming Events!</h3>
+            <p>Participate in weekly contests and wait for your chance to increase your earnings!</p>
+        </div>
+
+        <div id="referralBadge" class="referral-badge">
+            You were referred by a friend
+        </div>
+
+        <div class="benefits">
+            <strong>Why Join ZEMA?</strong>
+            <div class="benefit-item">Earn 50% commission from every referral</div>
+            <div class="benefit-item">99% success rate for withdrawals within 48 hours</div>
+            <div class="benefit-item">No users are banned except for fraudulent activities</div>
+            <div class="benefit-item">All messages are replied within 24 hours</div>
+            <div class="benefit-item">Join weekly contests with amazing prizes</div>
+            <div class="benefit-item">Monthly gaming events & tournaments</div>
+        </div>
+
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required placeholder="Create a strong password (6+ characters)">
+            </div>
+
+            <input type="hidden" id="referralCode" name="referralCode">
+            <button type="submit" class="btn">Create Account & Start Earning</button>
+        </form>
+
+        <div id="message" class="message"></div>
+
+        <div id="paymentBox" class="payment-box">
+            <h3 style="margin-bottom: 15px; color: #1976d2;">Complete Your Registration</h3>
+            
+            <div class="bot-instruction">
+                <strong style="color: #856404;">Important: After Payment</strong>
+                <p style="margin-top: 10px; color: #856404;">
+                    1. Take a screenshot of the payment confirmation<br>
+                    2. Send it to our Telegram bot<br>
+                    3. Your account will be verified within a few hours
+                </p>
+                <a href="https://t.me/zema_support_bot" target="_blank" class="bot-link">
+                    📱 Send Screenshot to @zema_support_bot
+                </a>
+            </div>
+            
+            <div class="wallet-address">
+                <strong style="color: #333;">Send exactly 1 USDT to:</strong>
+                <div style="display: flex; gap: 10px; margin-top: 15px">
+                    <input type="text" id="walletAddress" style="flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 8px; background: #f8f9fa;" readonly value="julianbeal16@gmail.com">
+                    <button type="button" class="copy-btn" onclick="copyWalletAddress()">Copy</button>
+                </div>
+                <p style="margin-top: 10px; color: #666">
+                    <small>
+                        Payment Method: <strong>Email Transfer (Coinex Wallet)</strong><br>
+                        Network: <strong>USDT BEP20</strong>
+                    </small>
+                </p>
+            </div>
+            
+            <p style="font-weight: 600; color: #333; margin-bottom: 15px;">Follow these steps:</p>
+            <div class="steps">
+                <div class="step">Send <strong>exactly 1 USDT (BEP20)</strong> to the email above via Coinex wallet</div>
+                <div class="step">Take a screenshot of the payment confirmation</div>
+                <div class="step">Send the screenshot to <strong>@zema_support_bot</strong> on Telegram</div>
+                <div class="step">Account will be verified within a few hours</div>
+                <div class="step">You'll receive email confirmation after verification</div>
+            </div>
+        </div>
+        
+        <div class="login-link">
+            Already have an account? <a href="/login">Sign in here</a>
+        </div>
+        
+        <div class="footer">
+            Platform - Since 10/2025
+        </div>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const refCode = urlParams.get('ref');
+        
+        if (refCode) {
+            document.getElementById('referralCode').value = refCode;
+            document.getElementById('referralBadge').style.display = 'block';
+        }
+        
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value,
+                referralCode: document.getElementById('referralCode').value
+            };
+
+            try {
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+                const messageDiv = document.getElementById('message');
+
+                if (data.success) {
+                    messageDiv.className = 'message success';
+                    messageDiv.innerHTML = '✓ ' + data.message;
+                    messageDiv.style.display = 'block';
+
+                    document.getElementById('paymentBox').style.display = 'block';
+                    document.getElementById('walletAddress').value = data.data.payment_wallet || 'julianbeal16@gmail.com';
+
+                    document.getElementById('paymentBox').scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    messageDiv.className = 'message error';
+                    messageDiv.innerHTML = '✗ ' + data.message;
+                    messageDiv.style.display = 'block';
+                }
+            } catch (error) {
+                document.getElementById('message').className = 'message error';
+                document.getElementById('message').textContent = '✗ Connection error';
+                document.getElementById('message').style.display = 'block';
+            }
+        });
+
+        function copyWalletAddress() {
+            const input = document.getElementById('walletAddress');
+            input.select();
+            try {
+                navigator.clipboard.writeText(input.value);
+                alert('Payment email copied!');
+            } catch (err) {
+                input.select();
+                document.execCommand('copy');
+                alert('Payment email copied!');
+            }
+        }
+    </script>
+</body>
+</html>
