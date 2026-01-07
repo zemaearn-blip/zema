@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: zema-platform
+    env: node
+    region: frankfurt
+    plan: free
+    buildCommand: |
+      npm install
+      mkdir -p uploads/payments
+      mkdir -p public
+    startCommand: node server.js
+    envVars:
+      - key: PORT
+        value: "10000"
+    healthCheckPath: /
+    initialDelaySeconds: 60
+    autoDeploy: true
+    disk:
+      name: uploads
+      mountPath: /opt/render/project/src/uploads
+      sizeGB: 1
