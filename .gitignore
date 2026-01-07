@@ -1,0 +1,31 @@
+# ملفات البيئة
+.env
+.env.local
+
+# قاعدة البيانات
+database/*.db
+database/*.sqlite
+
+# الملفات المرقومة
+uploads/
+!uploads/.gitkeep
+
+# الاعتماديات
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# أنظمة التشغيل
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+logs/
+*.log
