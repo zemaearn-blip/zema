@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZEMA Platform - Your Gateway to Financial Freedom</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            padding: 60px 20px 40px;
+        }
+        .logo {
+            font-size: 4em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #ffd700, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .tagline {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+        .subtagline {
+            font-size: 1.2em;
+            opacity: 0.8;
+            margin-bottom: 40px;
+        }
+        .stats-banner {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px auto;
+            font-weight: 600;
+            font-size: 1.2em;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            max-width: 600px;
+            border: 2px solid rgba(255,255,255,0.2);
+            text-align: center;
+        }
+        .stats-banner span {
+            font-weight: bold;
+            font-size: 1.4em;
+            color: #ffd700;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 50px 0;
+        }
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        .feature-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+            color: #ffd700;
+        }
+        .feature-card h3 {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            color: #ffd700;
+        }
+        .feature-card p {
+            opacity: 0.9;
+            font-size: 1em;
+        }
+        .contest-highlight {
+            background: linear-gradient(135deg, #ffd700, #ffbb6b);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 40px auto;
+            text-align: center;
+            max-width: 800px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+        .contest-highlight h3 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+        .contest-highlight p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        .benefits {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 15px;
+            margin: 50px 0;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .benefits h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2em;
+            color: #ffd700;
+        }
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+        }
+        .benefit-icon {
+            font-size: 2em;
+            margin-right: 20px;
+            color: #28a745;
+            min-width: 50px;
+            text-align: center;
+        }
+        .benefit-text {
+            flex: 1;
+        }
+        .benefit-text strong {
+            color: #ffd700;
+            font-size: 1.1em;
+        }
+        .auth-section {
+            text-align: center;
+            margin: 60px 0 40px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .auth-section h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #ffd700;
+        }
+        .auth-section p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        .auth-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 18px 40px;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 1.2em;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+            border: none;
+            cursor: pointer;
+            min-width: 200px;
+            text-align: center;
+        }
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(40, 167, 69, 0.6);
+        }
+        .btn-secondary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+        .btn-secondary:hover {
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.6);
+        }
+        .dashboard-btn {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        }
+        .dashboard-btn:hover {
+            box-shadow: 0 12px 35px rgba(255, 107, 107, 0.6);
+        }
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 30px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 15px;
+        }
+        .footer-links {
+            margin: 20px 0;
+        }
+        .footer-links a {
+            color: #ffd700;
+            text-decoration: none;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+        .footer-links a:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+        .copyright {
+            opacity: 0.7;
+            font-size: 0.9em;
+            margin-top: 20px;
+        }
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 3em;
+            }
+            .tagline {
+                font-size: 1.3em;
+            }
+            .auth-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+            .features {
+                grid-template-columns: 1fr;
+            }
+            .benefit-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            .benefit-icon {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animated {
+            animation: fadeInUp 0.8s ease-out;
+        }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo animated">ZEMA</div>
+            <h1 class="tagline animated delay-1">Your Gateway to Financial Freedom</h1>
+            <p class="subtagline animated delay-1">Start your earning journey today with our revolutionary referral platform</p>
+
+            <div class="stats-banner animated delay-2">
+                Join <span>1,250+</span> Active Users Earning Real Money Daily!
+            </div>
+        </header>
+
+        <section class="contest-highlight animated delay-2">
+            <h3>Weekly Lottery Contest!</h3>
+            <p>Buy $1 tickets & stand a chance to win $100! Limited time offer ending soon!</p>
+        </section>
+
+        <section class="features">
+            <div class="feature-card animated delay-1">
+                <div class="feature-icon">💰</div>
+                <h3>Instant Withdrawals</h3>
+                <p>Get your earnings within 48 hours with 99% success rate. No hidden fees or delays.</p>
+            </div>
+            <div class="feature-card animated delay-2">
+                <div class="feature-icon">👥</div>
+                <h3>50% Referral Commission</h3>
+                <p>Earn generous commissions from every friend you invite to the platform.</p>
+            </div>
+            <div class="feature-card animated delay-3">
+                <div class="feature-icon">🔒</div>
+                <h3>Secure & Protected</h3>
+                <p>Your data and earnings are protected with bank-level security encryption.</p>
+            </div>
+        </section>
+
+        <section class="benefits animated delay-2">
+            <h2>Why Choose ZEMA?</h2>
+
+            <div class="benefit-item">
+                <div class="benefit-icon">✅</div>
+                <div class="benefit-text">
+                    <strong>High Success Rate</strong> - 99% of withdrawals processed within 48 hours
+                </div>
+            </div>
+
+            <div class="benefit-item">
+                <div class="benefit-icon">✅</div>
+                <div class="benefit-text">
+                    <strong>Generous Commissions</strong> - Earn 50% from every referral's activities
+                </div>
+            </div>
+
+            <div class="benefit-item">
+                <div class="benefit-icon">✅</div>
+                <div class="benefit-text">
+                    <strong>Fair Platform</strong> - No users banned except for fraudulent activities
+                </div>
+            </div>
+
+            <div class="benefit-item">
+                <div class="benefit-icon">✅</div>
+                <div class="benefit-text">
+                    <strong>24/7 Support</strong> - All messages replied within 24 hours
+                </div>
+            </div>
+
+            <div class="benefit-item">
+                <div class="benefit-icon">✅</div>
+                <div class="benefit-text">
+                    <strong>Weekly Contests</strong> - Participate in contests with amazing prizes
+                </div>
+            </div>
+
+            <div class="benefit-item">
+                <div class="benefit-icon">✅</div>
+                <div class="benefit-text">
+                    <strong>Monthly Events</strong> - Big gaming events and tournaments
+                </div>
+            </div>
+        </section>
+
+        <section class="auth-section animated delay-3">
+            <h2>Ready to Start Earning?</h2>
+            <p>Join thousands of users who are already building their financial freedom with ZEMA</p>
+
+            <div class="auth-buttons" id="authButtons">
+                <!-- Buttons will be loaded by JavaScript -->
+            </div>
+        </section>
+
+        <footer>
+            <div class="footer-links">
+                <a href="/login">Login</a>
+                <a href="/register">Register</a>
+                <a href="https://t.me/zema_support">Support</a>
+                <a href="/terms">Terms of Service</a>
+                <a href="/privacy">Privacy Policy</a>
+            </div>
+            <div class="copyright">
+                &copy; 2025 ZEMA Platform. All rights reserved.
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        window.addEventListener('load', function() {
+            const token = localStorage.getItem('token');
+            const currentUser = localStorage.getItem('currentUser');
+            const authButtons = document.getElementById('authButtons');
+
+            if (token && currentUser) {
+                authButtons.innerHTML = `
+                    <a href="/dashboard" class="btn dashboard-btn">Go to Dashboard</a>
+                    <a href="#" class="btn btn-secondary" onclick="logout()">Logout</a>
+                `;
+                
+                document.querySelectorAll('.footer-links a').forEach(link => {
+                    if (link.textContent.includes('Login') || link.textContent.includes('Register')) {
+                        link.style.display = 'none';
+                    }
+                });
+            } else {
+                authButtons.innerHTML = `
+                    <a href="/login" class="btn">Login to Your Account</a>
+                    <a href="/register" class="btn btn-secondary">Register & Start Earning</a>
+                `;
+            }
+        });
+
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('currentUser');
+            window.location.href = '/';
+        }
+    </script>
+</body>
+</html>
