@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - ZEMA</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .logo {
+            font-size: 2.5em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #ffd700, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .user-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .user-email {
+            color: #666;
+            font-size: 1.1em;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        .stat-card h3 {
+            color: #666;
+            font-size: 1em;
+            margin-bottom: 10px;
+        }
+        .stat-card p {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        .stat-card.balance p { color: #28a745; }
+        .stat-card.earnings p { color: #ff6b6b; }
+        .stat-card.referrals p { color: #ffc107; }
+        
+        .btn {
+            padding: 12px 24px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 5px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .btn-warning {
+            background: #ffc107;
+            color: #333;
+        }
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+        .btn-contest {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+        }
+        
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        .section h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .referral-section {
+            border-left: 4px solid #28a745;
+        }
+        .withdrawal-section {
+            border-left: 4px solid #dc3545;
+        }
+        .contests-section {
+            border-left: 4px solid #ff6b6b;
+        }
+        .games-section {
+            border-left: 4px solid #667eea;
+        }
+        .notifications-section {
+            border-left: 4px solid #ffc107;
+        }
+        .activities-section {
+            border-left: 4px solid #17a2b8;
+        }
+        
+        .referral-input {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .referral-input input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e8ecef;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        .game-card, .contest-card, .notification-item, .activity-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #667eea;
+        }
+        .contest-card {
+            border-left-color: #ff6b6b;
+        }
+        .notification-item {
+            border-left-color: #ffc107;
+        }
+        .activity-item {
+            border-left-color: #17a2b8;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 600;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e8ecef;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: white;
+            font-size: 0.9em;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: white;
+            font-size: 1.2em;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: center;
+        }
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .ticket-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            margin-left: 10px;
+        }
+        
+        .ticket-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            margin-left: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .user-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            .referral-input {
+                flex-direction: column;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">ZEMA</div>
+            <p>Welcome to Your Earnings Dashboard</p>
+            <div class="user-info">
+                <div class="user-email" id="userEmail">Loading...</div>
+                <div>
+                    <button class="btn" onclick="refreshDashboard()">🔄 Refresh</button>
+                    <button class="btn btn-danger" onclick="logout()">🚪 Logout</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="loading" class="loading">
+            Loading your dashboard...
+        </div>
+
+        <div id="dashboardContent" style="display: none;">
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card balance">
+                    <h3>💰 Current Balance</h3>
+                    <p id="userBalance">$0.00</p>
+                </div>
+                <div class="stat-card referrals">
+                    <h3>👥 Total Referrals</h3>
+                    <p id="userReferrals">0</p>
+                </div>
+                <div class="stat-card earnings">
+                    <h3>📈 Total Earnings</h3>
+                    <p id="userEarnings">$0.00</p>
+                </div>
+                <div class="stat-card">
+                    <h3>✅ Active Referrals</h3>
+                    <p id="activeReferrals">0</p>
+                </div>
+            </div>
+
+            <!-- Referral Section -->
+            <div class="section referral-section">
+                <h3>📤 Your Referral Link</h3>
+                <p>Share this link to earn 50% commission from each friend:</p>
+                <div class="referral-input">
+                    <input type="text" id="referralLink" readonly>
+                    <button class="btn" onclick="copyReferralLink()">📋 Copy</button>
+                </div>
+                <p style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                    You earn $0.50 for every friend who joins and pays the $1 registration fee!
+                </p>
+            </div>
+
+            <!-- Withdrawal Section -->
+            <div class="section withdrawal-section">
+                <h3>💳 Withdraw Funds</h3>
+                <div class="form-group">
+                    <label>Amount ($)</label>
+                    <input type="number" id="withdrawAmount" placeholder="Enter amount" min="3" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label>USDT Wallet Address</label>
+                    <input type="text" id="withdrawWallet" placeholder="Enter your USDT (TRC20) wallet address">
+                </div>
+                <button class="btn" onclick="submitWithdrawal()">Withdraw</button>
+                <p style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                    Minimum withdrawal: $3.00 | Processing time: 24-48 hours
+                </p>
+            </div>
+
+            <!-- Contests Section -->
+            <div class="section contests-section">
+                <h3>🎲 Weekly Contests 
+                    <span class="ticket-badge" id="contestTicketsCount">0 tickets</span>
+                </h3>
+                <p style="margin-bottom: 20px; color: #666;">Buy $1 tickets for a chance to win $100!</p>
+                
+                <div id="contestsList">
+                    <!-- Contests will be loaded here -->
+                </div>
+                
+                <div id="myContests" style="margin-top: 30px;">
+                    <h4 style="color: #ff6b6b;">My Contest Tickets</h4>
+                    <div id="myTicketsList">
+                        <!-- User's tickets will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Games Section -->
+            <div class="section games-section">
+                <h3>🎮 Available Games</h3>
+                <div id="gamesList">
+                    <!-- Games will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Notifications Section -->
+            <div class="section notifications-section">
+                <h3>🔔 Notifications</h3>
+                <div id="notificationsList">
+                    <div class="notification-item">
+                        Welcome to ZEMA! Start earning by sharing your referral link.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Activities Section -->
+            <div class="section activities-section">
+                <h3>📋 Recent Activities</h3>
+                <div id="activitiesList">
+                    Loading activities...
+                </div>
+                <button class="btn btn-warning" onclick="loadMoreActivities()" style="margin-top: 15px;">Load More Activities</button>
+            </div>
+
+            <div class="footer">
+                ZEMA Platform - Since 10/2025 | Contact Support: <a href="https://t.me/zema_support" style="color: #ffd700;">@zema_support</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = null;
+        let currentToken = null;
+        let activityPage = 1;
+
+        async function loadDashboard() {
+            const savedUser = localStorage.getItem('currentUser');
+            const savedToken = localStorage.getItem('token');
+
+            if (!savedUser || !savedToken) {
+                window.location.href = '/login';
+                return;
+            }
+
+            currentUser = JSON.parse(savedUser);
+            currentToken = savedToken;
+
+            try {
+                const response = await fetch('/api/dashboard', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + currentToken
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    updateDashboard(data.data);
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('dashboardContent').style.display = 'block';
+                    loadUserActivities();
+                } else {
+                    alert('Failed to load dashboard: ' + data.message);
+                    if (data.message.includes('token') || data.message.includes('expired')) {
+                        localStorage.removeItem('currentUser');
+                        localStorage.removeItem('token');
+                        window.location.href = '/login';
+                    }
+                }
+            } catch (error) {
+                alert('Connection error. Please check your internet connection.');
+                document.getElementById('loading').innerHTML = 'Connection error. Please try again.';
+            }
+        }
+
+        function updateDashboard(data) {
+            const user = data.user;
+            const stats = data.stats;
+
+            // Update user info
+            document.getElementById('userEmail').textContent = user.email;
+            document.getElementById('userBalance').textContent = '$' + (user.balance || 0).toFixed(2);
+            document.getElementById('userReferrals').textContent = stats.total_referrals || 0;
+            document.getElementById('userEarnings').textContent = '$' + (user.total_earnings || 0).toFixed(2);
+            document.getElementById('activeReferrals').textContent = stats.active_referrals || 0;
+            document.getElementById('referralLink').value = data.referral_link;
+            
+            // Update contest tickets count
+            document.getElementById('contestTicketsCount').textContent = 
+                (stats.my_participations || 0) + ' ticket' + (stats.my_participations !== 1 ? 's' : '');
+
+            // Update notifications
+            const notificationsList = document.getElementById('notificationsList');
+            notificationsList.innerHTML = "";
+            if (data.notifications && data.notifications.length > 0) {
+                data.notifications.forEach(notification => {
+                    const notificationItem = document.createElement('div');
+                    notificationItem.className = 'notification-item';
+                    notificationItem.innerHTML = `
+                        <strong>${notification.title}</strong>
+                        <p>${notification.message}</p>
+                        <small>${new Date(notification.created_at).toLocaleDateString()}</small>
+                    `;
+                    notificationsList.appendChild(notificationItem);
+                });
+            } else {
+                notificationsList.innerHTML = '<div class="notification-item">No new notifications</div>';
+            }
+
+            // Update contests
+            const contestsList = document.getElementById('contestsList');
+            const myTicketsList = document.getElementById('myTicketsList');
+            
+            contestsList.innerHTML = "";
+            myTicketsList.innerHTML = "";
+            
+            // Display active contests
+            if (data.contests && Array.isArray(data.contests) && data.contests.length > 0) {
+                data.contests.forEach(contest => {
+                    const endDate = new Date(contest.end_date).toLocaleDateString();
+                    const contestCard = document.createElement('div');
+                    contestCard.className = 'contest-card';
+                    contestCard.innerHTML = `
+                        <h4 style="color: #ff6b6b; margin-bottom: 10px;">${contest.title}</h4>
+                        <p style="color: #666; margin-bottom: 15px;">${contest.description || 'Win amazing prizes!'}</p>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
+                            <div>
+                                <div style="font-weight: bold; color: #333;">🎫 Ticket Price</div>
+                                <div style="font-size: 1.5em; color: #ff6b6b;">$${contest.ticket_price}</div>
+                            </div>
+                            <div>
+                                <div style="font-weight: bold; color: #333;">🏆 Prize</div>
+                                <div style="font-size: 1.5em; color: #28a745;">$${contest.prize_amount}</div>
+                            </div>
+                            <div>
+                                <div style="font-weight: bold; color: #333;">👥 Max</div>
+                                <div style="color: #666;">${contest.max_participants || 100} participants</div>
+                            </div>
+                            <div>
+                                <div style="font-weight: bold; color: #333;">📅 Ends</div>
+                                <div style="color: #666;">${endDate}</div>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-contest" 
+                                onclick="buyContestTicket('${contest.id}', '${contest.title}', ${contest.ticket_price})"
+                                style="width: 100%;">
+                            🎟️ Buy Ticket ($${contest.ticket_price})
+                        </button>
+                    `;
+                    contestsList.appendChild(contestCard);
+                });
+            } else {
+                contestsList.innerHTML = '<div class="alert alert-warning">No active contests at the moment. Check back soon!</div>';
+            }
+            
+            // Display user's tickets
+            if (data.contest_participations && Array.isArray(data.contest_participations) && data.contest_participations.length > 0) {
+                data.contest_participations.forEach(participation => {
+                    const ticketItem = document.createElement('div');
+                    ticketItem.className = 'notification-item';
+                    const date = new Date(participation.created_at).toLocaleDateString();
+                    const ticketNumber = participation.ticket_number ? `<span class="ticket-number">Ticket #${participation.ticket_number}</span>` : '';
+                    ticketItem.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: start;">
+                            <div>
+                                <strong>${participation.contest.title}</strong>
+                                ${ticketNumber}
+                                <p>Ticket purchased on ${date}</p>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-size: 1.2em; color: #28a745; font-weight: bold;">$${participation.contest.prize_amount}</div>
+                                <small>Potential prize</small>
+                            </div>
+                        </div>
+                        <small style="color: #666;">Good luck! Winner will be announced soon.</small>
+                    `;
+                    myTicketsList.appendChild(ticketItem);
+                });
+            } else {
+                myTicketsList.innerHTML = '<div class="alert alert-warning">No tickets purchased yet. Buy your first ticket above!</div>';
+            }
+
+            // Update games
+            const gamesList = document.getElementById('gamesList');
+            gamesList.innerHTML = "";
+            
+            if (data.games && Array.isArray(data.games) && data.games.length > 0) {
+                data.games.forEach(game => {
+                    const gameCard = document.createElement('div');
+                    gameCard.className = 'game-card';
+                    gameCard.innerHTML = `
+                        <h4>${game.title}</h4>
+                        <p style="color: #666; margin-bottom: 10px;">${game.description || 'Play and enjoy!'}</p>
+                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                            <div>
+                                <span style="background: #e8ecef; padding: 5px 10px; border-radius: 5px; font-size: 0.9em;">
+                                    ${game.game_type}
+                                </span>
+                                <span style="background: ${game.access_type === 'premium' ? '#ffc107' : '#28a745'}; 
+                                      color: ${game.access_type === 'premium' ? '#333' : 'white'}; 
+                                      padding: 5px 10px; border-radius: 5px; font-size: 0.9em; margin-left: 5px;">
+                                    ${game.access_type}
+                                </span>
+                            </div>
+                            <a href="${game.game_url}" target="_blank" class="btn btn-warning">
+                                🎮 Play Now
+                            </a>
+                        </div>
+                    `;
+                    gamesList.appendChild(gameCard);
+                });
+            } else {
+                gamesList.innerHTML = '<div class="alert alert-warning">No games available at the moment.</div>';
+            }
+        }
+
+        async function loadUserActivities() {
+            try {
+                const response = await fetch(`/api/user/activities?page=${activityPage}&limit=10`, {
+                    headers: {
+                        'Authorization': 'Bearer ' + currentToken
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    const activitiesList = document.getElementById('activitiesList');
+                    
+                    if (activityPage === 1) {
+                        activitiesList.innerHTML = '';
+                    }
+                    
+                    if (data.data.activities && data.data.activities.length > 0) {
+                        data.data.activities.forEach(activity => {
+                            const activityItem = document.createElement('div');
+                            activityItem.className = 'activity-item';
+                            
+                            const date = new Date(activity.created_at).toLocaleString();
+                            let amountText = '';
+                            if (activity.amount > 0) {
+                                const isPositive = activity.activity_type.includes('commission') || 
+                                                 activity.activity_type.includes('won') || 
+                                                 activity.activity_type.includes('payment_approved') ||
+                                                 activity.activity_type.includes('add');
+                                amountText = `<span style="color: ${isPositive ? '#28a745' : '#dc3545'}; font-weight: bold;">${isPositive ? '+' : '-'}$${activity.amount}</span>`;
+                            }
+                            
+                            let icon = '📝';
+                            if (activity.activity_type.includes('payment')) icon = '💳';
+                            if (activity.activity_type.includes('withdrawal')) icon = '💰';
+                            if (activity.activity_type.includes('ticket')) icon = '🎟️';
+                            if (activity.activity_type.includes('commission')) icon = '👥';
+                            if (activity.activity_type.includes('contest')) icon = '🎲';
+                            if (activity.activity_type.includes('won')) icon = '🏆';
+                            if (activity.activity_type.includes('registration')) icon = '📝';
+                            if (activity.activity_type.includes('login')) icon = '🔐';
+                            
+                            activityItem.innerHTML = `
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <div>
+                                        <span style="font-size: 1.2em; margin-right: 10px;">${icon}</span>
+                                        <strong>${activity.description}</strong>
+                                    </div>
+                                    <div style="text-align: right;">
+                                        ${amountText}
+                                    </div>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; font-size: 0.8em; color: #666;">
+                                    <div>${activity.activity_type.replace(/_/g, ' ')}</div>
+                                    <div>${date}</div>
+                                </div>
+                            `;
+                            activitiesList.appendChild(activityItem);
+                        });
+                        
+                        // Show/hide load more button
+                        if (data.data.activities.length < 10) {
+                            document.querySelector('button[onclick="loadMoreActivities()"]').style.display = 'none';
+                        } else {
+                            document.querySelector('button[onclick="loadMoreActivities()"]').style.display = 'block';
+                        }
+                    } else if (activityPage === 1) {
+                        activitiesList.innerHTML = '<div class="activity-item">No activities found</div>';
+                        document.querySelector('button[onclick="loadMoreActivities()"]').style.display = 'none';
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading activities:', error);
+            }
+        }
+
+        function loadMoreActivities() {
+            activityPage++;
+            loadUserActivities();
+        }
+
+        async function copyReferralLink() {
+            const input = document.getElementById('referralLink');
+            input.select();
+            try {
+                await navigator.clipboard.writeText(input.value);
+                alert('✅ Referral link copied! Share it with your friends.');
+            } catch (err) {
+                input.select();
+                document.execCommand('copy');
+                alert('✅ Referral link copied! Share it with your friends.');
+            }
+        }
+
+        async function submitWithdrawal() {
+            const amount = parseFloat(document.getElementById('withdrawAmount').value);
+            const walletAddress = document.getElementById('withdrawWallet').value;
+
+            if (!amount || amount < 3) {
+                alert('Please enter a valid amount (minimum $3)');
+                return;
+            }
+
+            if (!walletAddress) {
+                alert('Please enter your wallet address');
+                return;
+            }
+
+            if (currentUser.balance < amount) {
+                alert('Insufficient balance');
+                return;
+            }
+
+            if (!confirm(`Withdraw $${amount} to ${walletAddress}?`)) return;
+
+            try {
+                const response = await fetch('/api/withdraw', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + currentToken
+                    },
+                    body: JSON.stringify({
+                        amount: amount,
+                        wallet_address: walletAddress
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    alert('✅ Withdrawal request submitted successfully!');
+                    document.getElementById('withdrawAmount').value = "";
+                    document.getElementById('withdrawWallet').value = "";
+                    loadDashboard();
+                } else {
+                    alert('❌ ' + data.message);
+                }
+            } catch (error) {
+                alert('Connection error. Please try again.');
+            }
+        }
+
+        async function buyContestTicket(contestId, contestTitle, ticketPrice) {
+            if (!confirm(`Buy ticket for "${contestTitle}" for $${ticketPrice}?`)) return;
+
+            try {
+                const response = await fetch(`/api/contests/${contestId}/buy`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + currentToken
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    alert(`✅ Ticket purchased successfully! Your ticket number is ${data.data.ticket_number}. Good luck! 🍀`);
+                    refreshDashboard();
+                } else {
+                    alert('❌ ' + data.message);
+                }
+            } catch (error) {
+                alert('Error purchasing ticket. Please try again.');
+            }
+        }
+
+        function refreshDashboard() {
+            activityPage = 1;
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('dashboardContent').style.display = 'none';
+            setTimeout(() => {
+                loadDashboard();
+            }, 500);
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('currentUser');
+                localStorage.removeItem('token');
+                window.location.href = '/login';
+            }
+        }
+
+        // Auto-refresh every 30 seconds
+        setInterval(() => {
+            if (currentUser && currentToken) {
+                loadDashboard();
+            }
+        }, 30000);
+
+        // Load dashboard on page load
+        document.addEventListener('DOMContentLoaded', loadDashboard);
+    </script>
+</body>
+</html>
